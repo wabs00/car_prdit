@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Car Price Prediction</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #eef2ff, #f8fafc);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 520px;
+            background: #ffffff;
+            border-radius: 18px;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+            padding: 32px 28px;
+        }
+
+        .title {
+            margin: 0 0 8px;
+            font-size: 32px;
+            font-weight: 700;
+            color: #0f172a;
+            text-align: center;
+        }
+
+        .subtitle {
+            margin: 0 0 28px;
+            text-align: center;
+            color: #475569;
+            font-size: 15px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 14px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s ease;
+            background: #f8fafc;
+        }
+
+        .field input:focus {
+            border-color: #2563eb;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 22px;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .result {
+            margin-top: 22px;
+            padding: 16px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: #1e3a8a;
+            font-weight: 700;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        @media (min-width: 640px) {
+            .grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .field.full {
+                grid-column: 1 / -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 class="title">Car Price Prediction</h1>
+        <p class="subtitle">Enter the vehicle details below to estimate its price.</p>
+
+        <form action="/predict" method="post">
+            <div class="grid">
+                <div class="field">
+                    <label for="engine">Engine Volume</label>
+                    <input
+                        type="number"
+                        step="any"
+                        id="engine"
+                        name="engine"
+                        placeholder="e.g. 2.0"
+                        required
+                        value="{{ values['Engine volume'] if values and 'Engine volume' in values else '' }}"
+                    />
+                </div>
+
+                <div class="field">
+                    <label for="mileage">Mileage</label>
+                    <input
+                        type="number"
+                        step="any"
+                        id="mileage"
+                        name="mileage"
+                        placeholder="e.g. 85000"
+                        required
+                        value="{{ values['Mileage'] if values and 'Mileage' in values else '' }}"
+                    />
+                </div>
+
+                <div class="field">
+                    <label for="cylinders">Cylinders</label>
+                    <input
+                        type="number"
+                        step="any"
+                        id="cylinders"
+                        name="cylinders"
+                        placeholder="e.g. 4"
+                        required
+                        value="{{ values['Cylinders'] if values and 'Cylinders' in values else '' }}"
+                    />
+                </div>
+
+                <div class="field">
+                    <label for="year">Production Year</label>
+                    <input
+                        type="number"
+                        step="any"
+                        id="year"
+                        name="year"
+                        placeholder="e.g. 2019"
+                        required
+                        value="{{ values['Prod. year'] if values and 'Prod. year' in values else '' }}"
+                    />
+                </div>
+
+                <div class="field full">
+                    <label for="levy">Levy</label>
+                    <input
+                        type="number"
+                        step="any"
+                        id="levy"
+                        name="levy"
+                        placeholder="e.g. 1200"
+                        required
+                        value="{{ values['Levy'] if values and 'Levy' in values else '' }}"
+                    />
+                </div>
+            </div>
+
+            <button class="btn" type="submit">Predict Price</button>
+        </form>
+
+        {% if prediction_text %}
+        <div class="result">
+            {{ prediction_text }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
